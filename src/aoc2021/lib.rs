@@ -1,5 +1,6 @@
 mod d4;
 mod d5;
+mod d6;
 
 pub mod utils;
 
@@ -12,4 +13,5 @@ macro_rules! solution {
 pub mod solutions {
     solution![d4];
     solution![d5];
+    solution![d6];
 }
