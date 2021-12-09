@@ -26,6 +26,7 @@ fn get_solution(day: u8) -> Option<fn(String, String, &[String])> {
     let exec = match day {
         4 => solutions::d4,
         5 => solutions::d5,
+        6 => solutions::d6,
         _ => return None,
     };
 
