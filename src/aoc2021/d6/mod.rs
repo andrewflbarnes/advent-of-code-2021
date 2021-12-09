@@ -12,15 +12,18 @@ pub fn solve(input1: String, _: String, _: &[String]) {
 
     println!("{:?}", track);
 
-    let mut birthers: i32;
-    for _ in 1..=80 {
+    let mut birthers: u64;
+    for i in 1..=256 {
         birthers = track[0];
         for j in 1..=8 {
             track[j-1] = track[j];
         }
         track[8] = birthers;
         track[6] += birthers;
+        if i == 80 {
+            println!("Day 80 fish: {}", track.iter().sum::<u64>());
+        }
     }
-    println!("Day 80 fish: {}", track.iter().sum::<i32>());
+    println!("Day 256 fish: {}", track.iter().sum::<u64>());
 
 }
