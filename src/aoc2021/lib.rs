@@ -3,7 +3,13 @@ mod d5;
 
 pub mod utils;
 
+macro_rules! solution {
+    ( $x:ident ) => {
+        pub use crate::{$x::solve as $x};
+    };
+}
+
 pub mod solutions {
-    pub use crate::{d4::solve as d4};
-    pub use crate::{d5::solve as d5};
+    solution![d4];
+    solution![d5];
 }
