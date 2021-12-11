@@ -8,11 +8,23 @@ pub fn solve(input1: String, _: String, _: &[String]) {
         .collect::<Vec<_>>();
 
     let mut flashed = 0;
-    for _ in 0..100 {
-        flashed += tick(&mut grid).len();
+    let mut step = 0;
+    loop {
+        step += 1;
+        let flashed_count = tick(&mut grid).len();
+        flashed += flashed_count;
+
+        if step == 100 {
+            println!("{} flashes after 100 steps", flashed);
+            print_grid(&grid);
+        }
+
+        let all_flashed = flashed_count == grid.len() * grid[0].len();
+        if all_flashed {
+            println!("All flashed on step {}", step);
+            return;
+        }
     }
-    println!("{} flashes", flashed);
-    print_grid(&grid);
 }
 
 fn tick(grid: &mut Vec<Vec<u8>>) -> Vec<(usize, usize)> {
@@ -67,4 +79,5 @@ fn print_grid(grid: &Vec<Vec<u8>>) {
         row.iter().for_each(|c| print!("{}", c));
         println!("");
     }
+    println!("");
 }
