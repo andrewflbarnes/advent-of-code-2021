@@ -24,12 +24,12 @@ fn main() {
 
 fn get_solution(day: u8) -> Option<fn(String, String, &[String])> {
     let exec = match day {
-        4 => solutions::d4,
-        5 => solutions::d5,
-        6 => solutions::d6,
-        7 => solutions::d7,
-        8 => solutions::d8,
-        9 => solutions::d9,
+        4 => solutions::d04,
+        5 => solutions::d05,
+        6 => solutions::d06,
+        7 => solutions::d07,
+        8 => solutions::d08,
+        9 => solutions::d09,
         10 => solutions::d10,
         11 => solutions::d11,
         _ => return None,

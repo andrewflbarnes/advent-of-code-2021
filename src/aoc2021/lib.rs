@@ -1,9 +1,9 @@
-mod d4;
-mod d5;
-mod d6;
-mod d7;
-mod d8;
-mod d9;
+mod d04;
+mod d05;
+mod d06;
+mod d07;
+mod d08;
+mod d09;
 mod d10;
 mod d11;
 
@@ -16,12 +16,12 @@ macro_rules! solution {
 }
 
 pub mod solutions {
-    solution![d4];
-    solution![d5];
-    solution![d6];
-    solution![d7];
-    solution![d8];
-    solution![d9];
+    solution![d04];
+    solution![d05];
+    solution![d06];
+    solution![d07];
+    solution![d08];
+    solution![d09];
     solution![d10];
     solution![d11];
 }
