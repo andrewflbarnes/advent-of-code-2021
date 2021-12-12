@@ -1,21 +1,7 @@
-use std::cmp::Ordering;
-
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug)]
 pub struct Cave {
     id: String,
     connections: Vec<String>,
-}
-
-impl Ord for Cave {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.id.cmp(&other.id)
-    }
-}
-
-impl PartialOrd for Cave {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some(self.cmp(other))
-    }
 }
 
 impl Cave {
