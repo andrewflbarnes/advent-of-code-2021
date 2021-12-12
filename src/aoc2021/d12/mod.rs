@@ -11,7 +11,6 @@ macro_rules! add_cave {
             let cave = Cave::new(id_str.clone());
             $caves.insert(id_str.clone(), RefCell::from(cave));
         }
-        $caves.get(id_str).unwrap().borrow_mut()
     };
 }
 
