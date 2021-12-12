@@ -32,17 +32,21 @@ pub fn solve(input1: String, _: String, _: &[String]) {
         });
 
     let all_routes = get_all_routes(&caves);
-    for path in all_routes.iter() {
-        println!("{:?}", path);
-    }
     println!("{} routes", all_routes.len());
+
+    let all_routes = get_all_routes_2(&caves);
+    println!("{} routes with small cave re-visit", all_routes.len());
 }
 
 fn get_all_routes(caves: &HashMap<String, RefCell<Cave>>) -> Vec<Vec<String>> {
-    get_routes(caves, vec!["start".to_string()])
+    get_routes(caves, vec!["start".to_string()], true)
 }
 
-fn get_routes(caves: &HashMap<String, RefCell<Cave>>, path: Vec<String>) -> Vec<Vec<String>> {
+fn get_all_routes_2(caves: &HashMap<String, RefCell<Cave>>) -> Vec<Vec<String>> {
+    get_routes(caves, vec!["start".to_string()], false)
+}
+
+fn get_routes(caves: &HashMap<String, RefCell<Cave>>, path: Vec<String>, had_second_visit: bool) -> Vec<Vec<String>> {
     let mut paths: Vec<Vec<String>> = vec![];
 
     let last_cave = caves.get(path.last().unwrap()).unwrap().borrow();
@@ -52,14 +56,18 @@ fn get_routes(caves: &HashMap<String, RefCell<Cave>>, path: Vec<String>) -> Vec<
     
     let last_cave_connections = last_cave.connections();
     for next in last_cave_connections {
-        if next.chars().all(|c| c.is_uppercase()) || !path.contains(next) {
+        let uppercase = next.chars().all(|c| c.is_uppercase());
+        let visited = path.contains(next);
+        let can_second_visit = !had_second_visit && next != "end" && next != "start";
+
+        if uppercase || !visited || can_second_visit {
             let mut new_path = path.clone();
             new_path.push(next.clone());
 
             if next == "end" {
                 paths.push(new_path);
             } else {
-                for onward_path in get_routes(caves, new_path) {
+                for onward_path in get_routes(caves, new_path, had_second_visit || (!uppercase && visited)) {
                     paths.push(onward_path);
                 }
             }
