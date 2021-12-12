@@ -4,37 +4,42 @@ use cave::Cave;
 use std::collections::HashMap;
 use std::cell::RefCell;
 
-macro_rules! add_cave {
-    ( $caves:ident, $id:expr ) => {
-        let id_str = $id;
-        if !$caves.contains_key(id_str) {
-            let cave = Cave::new(id_str.clone());
-            $caves.insert(id_str.clone(), RefCell::from(cave));
-        }
-    };
-}
-
 pub fn solve(input1: String, _: String, _: &[String]) {
     let lines = utils::read_file_lines(&input1);
 
     let mut caves: HashMap<String, RefCell<Cave>> = HashMap::new();
+    let add_caves = cave_adder(&mut caves);
     lines.iter()
-        .map(|l| l.split("-"))
-        .map(|mut ids| (ids.nth(0).unwrap().to_string(), ids.nth(0).unwrap().to_string()))
-        .for_each(|link| {
-            add_cave!(caves, &link.0);
-            add_cave!(caves, &link.1);
-            let mut cave_1 = caves.get(&link.0).unwrap().borrow_mut();
-            let mut cave_2 = caves.get(&link.1).unwrap().borrow_mut();
-            cave_1.add_connection(&cave_2.id());
-            cave_2.add_connection(&cave_1.id());
-        });
+        .for_each(add_caves);
 
     let all_routes = get_all_routes(&caves);
     println!("{} routes", all_routes.len());
 
     let all_routes = get_all_routes_2(&caves);
     println!("{} routes with small cave re-visit", all_routes.len());
+}
+
+fn cave_adder<'a>(caves: &'a mut HashMap<String, RefCell<Cave>>) -> Box<dyn FnMut(&String) + 'a> {
+    Box::new(move |line| {
+        let mut ids = line.split("-");
+        let link = (ids.nth(0).unwrap().to_string(), ids.nth(0).unwrap().to_string());
+        
+        add_cave(caves, &link.0);
+        add_cave(caves, &link.1);
+
+        let mut cave_1 = caves.get(&link.0).unwrap().borrow_mut();
+        let mut cave_2 = caves.get(&link.1).unwrap().borrow_mut();
+
+        cave_1.add_connection(&cave_2.id());
+        cave_2.add_connection(&cave_1.id());
+    })
+}
+
+fn add_cave(caves: &mut HashMap<String, RefCell<Cave>>, id: &String) {
+    if !caves.contains_key(id) {
+        let cave = Cave::new(id.clone());
+        caves.insert(id.clone(), RefCell::from(cave));
+    }
 }
 
 fn get_all_routes(caves: &HashMap<String, RefCell<Cave>>) -> Vec<Vec<String>> {
