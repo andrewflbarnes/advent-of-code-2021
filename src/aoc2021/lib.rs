@@ -7,6 +7,7 @@ mod d09;
 mod d10;
 mod d11;
 mod d12;
+mod d13;
 
 pub mod utils;
 
@@ -26,4 +27,5 @@ pub mod solutions {
     solution![d10];
     solution![d11];
     solution![d12];
+    solution![d13];
 }
