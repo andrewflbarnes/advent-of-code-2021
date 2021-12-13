@@ -10,7 +10,7 @@ pub fn solve(input1: String, _: String, _: &[String]) {
     
     let mut dots = lines[0..break_line].iter()
         .map(|line| line.split(",").map(|coord| coord.parse::<u16>().unwrap()))
-        .map(|mut coords| (coords.nth(0).unwrap(), coords.nth(0).unwrap()))
+        .map(|mut coords| (coords.next().unwrap(), coords.next().unwrap()))
         .collect::<Vec<_>>();
 
     // dots.iter().for_each(|dot| println!("{:?}", dot));
@@ -31,20 +31,19 @@ pub fn solve(input1: String, _: String, _: &[String]) {
             dots.dedup();
             if first {
                 first = false;
-                // print_dots(&dots);
                 println!("Dots after single iteration: {}", dots.len());
             }
         });
 
     // dots.iter().for_each(|dot| println!("{:?}", dot));
 
-    // print_dots(&dots);
+    print_dots(&dots);
 }
 
 fn print_dots(dots: &Vec<(u16, u16)>) {
-    for i in 0..=10 {
-        for j in 0..=10 {
-            print!("{}", if dots.contains(&(i, j)) {"#"} else {"."});
+    for i in 0..=5 {
+        for j in 0..=38 {
+            print!("{}", if dots.contains(&(j, i)) {"#"} else {"."});
         }
         println!("")
     }
